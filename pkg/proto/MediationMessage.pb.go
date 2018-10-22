@@ -3,14 +3,22 @@
 
 package proto
 
-import proto "github.com/golang/protobuf/proto"
-import fmt "fmt"
-import math "math"
+import (
+	fmt "fmt"
+	proto "github.com/golang/protobuf/proto"
+	math "math"
+)
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
 var _ = fmt.Errorf
 var _ = math.Inf
+
+// This is a compile-time assertion to ensure that this generated file
+// is compatible with the proto package it is being compiled against.
+// A compilation error at this line likely means your copy of the
+// proto package needs to be updated.
+const _ = proto.ProtoPackageIsVersion2 // please upgrade the proto package
 
 // Messages, sent from client to server
 type MediationClientMessage struct {
@@ -20,18 +28,41 @@ type MediationClientMessage struct {
 	//	*MediationClientMessage_KeepAlive
 	//	*MediationClientMessage_ActionProgress
 	//	*MediationClientMessage_ActionResponse
+	//	*MediationClientMessage_TargetUpdateResponse
 	MediationClientMessage isMediationClientMessage_MediationClientMessage `protobuf_oneof:"mediation_client_message"`
 	// this is always required in reality. it's optional here because
 	// we don't know if in the future, with embedded targets, we will
 	// still use it or not
-	MessageID        *int32 `protobuf:"varint,15,opt,name=messageID" json:"messageID,omitempty"`
-	XXX_unrecognized []byte `json:"-"`
+	MessageID            *int32   `protobuf:"varint,15,opt,name=messageID" json:"messageID,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *MediationClientMessage) Reset()                    { *m = MediationClientMessage{} }
-func (m *MediationClientMessage) String() string            { return proto.CompactTextString(m) }
-func (*MediationClientMessage) ProtoMessage()               {}
-func (*MediationClientMessage) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{0} }
+func (m *MediationClientMessage) Reset()         { *m = MediationClientMessage{} }
+func (m *MediationClientMessage) String() string { return proto.CompactTextString(m) }
+func (*MediationClientMessage) ProtoMessage()    {}
+func (*MediationClientMessage) Descriptor() ([]byte, []int) {
+	return fileDescriptor_0f4aaac5b7541132, []int{0}
+}
+
+func (m *MediationClientMessage) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_MediationClientMessage.Unmarshal(m, b)
+}
+func (m *MediationClientMessage) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_MediationClientMessage.Marshal(b, m, deterministic)
+}
+func (m *MediationClientMessage) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MediationClientMessage.Merge(m, src)
+}
+func (m *MediationClientMessage) XXX_Size() int {
+	return xxx_messageInfo_MediationClientMessage.Size(m)
+}
+func (m *MediationClientMessage) XXX_DiscardUnknown() {
+	xxx_messageInfo_MediationClientMessage.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MediationClientMessage proto.InternalMessageInfo
 
 type isMediationClientMessage_MediationClientMessage interface {
 	isMediationClientMessage_MediationClientMessage()
@@ -40,24 +71,39 @@ type isMediationClientMessage_MediationClientMessage interface {
 type MediationClientMessage_ValidationResponse struct {
 	ValidationResponse *ValidationResponse `protobuf:"bytes,2,opt,name=validationResponse,oneof"`
 }
+
 type MediationClientMessage_DiscoveryResponse struct {
 	DiscoveryResponse *DiscoveryResponse `protobuf:"bytes,3,opt,name=discoveryResponse,oneof"`
 }
+
 type MediationClientMessage_KeepAlive struct {
 	KeepAlive *KeepAlive `protobuf:"bytes,4,opt,name=keepAlive,oneof"`
 }
+
 type MediationClientMessage_ActionProgress struct {
 	ActionProgress *ActionProgress `protobuf:"bytes,5,opt,name=actionProgress,oneof"`
 }
+
 type MediationClientMessage_ActionResponse struct {
 	ActionResponse *ActionResult `protobuf:"bytes,6,opt,name=actionResponse,oneof"`
 }
 
+type MediationClientMessage_TargetUpdateResponse struct {
+	TargetUpdateResponse *TargetUpdateResponse `protobuf:"bytes,7,opt,name=targetUpdateResponse,oneof"`
+}
+
 func (*MediationClientMessage_ValidationResponse) isMediationClientMessage_MediationClientMessage() {}
-func (*MediationClientMessage_DiscoveryResponse) isMediationClientMessage_MediationClientMessage()  {}
-func (*MediationClientMessage_KeepAlive) isMediationClientMessage_MediationClientMessage()          {}
-func (*MediationClientMessage_ActionProgress) isMediationClientMessage_MediationClientMessage()     {}
-func (*MediationClientMessage_ActionResponse) isMediationClientMessage_MediationClientMessage()     {}
+
+func (*MediationClientMessage_DiscoveryResponse) isMediationClientMessage_MediationClientMessage() {}
+
+func (*MediationClientMessage_KeepAlive) isMediationClientMessage_MediationClientMessage() {}
+
+func (*MediationClientMessage_ActionProgress) isMediationClientMessage_MediationClientMessage() {}
+
+func (*MediationClientMessage_ActionResponse) isMediationClientMessage_MediationClientMessage() {}
+
+func (*MediationClientMessage_TargetUpdateResponse) isMediationClientMessage_MediationClientMessage() {
+}
 
 func (m *MediationClientMessage) GetMediationClientMessage() isMediationClientMessage_MediationClientMessage {
 	if m != nil {
@@ -101,6 +147,13 @@ func (m *MediationClientMessage) GetActionResponse() *ActionResult {
 	return nil
 }
 
+func (m *MediationClientMessage) GetTargetUpdateResponse() *TargetUpdateResponse {
+	if x, ok := m.GetMediationClientMessage().(*MediationClientMessage_TargetUpdateResponse); ok {
+		return x.TargetUpdateResponse
+	}
+	return nil
+}
+
 func (m *MediationClientMessage) GetMessageID() int32 {
 	if m != nil && m.MessageID != nil {
 		return *m.MessageID
@@ -116,6 +169,7 @@ func (*MediationClientMessage) XXX_OneofFuncs() (func(msg proto.Message, b *prot
 		(*MediationClientMessage_KeepAlive)(nil),
 		(*MediationClientMessage_ActionProgress)(nil),
 		(*MediationClientMessage_ActionResponse)(nil),
+		(*MediationClientMessage_TargetUpdateResponse)(nil),
 	}
 }
 
@@ -146,6 +200,11 @@ func _MediationClientMessage_OneofMarshaler(msg proto.Message, b *proto.Buffer) 
 	case *MediationClientMessage_ActionResponse:
 		b.EncodeVarint(6<<3 | proto.WireBytes)
 		if err := b.EncodeMessage(x.ActionResponse); err != nil {
+			return err
+		}
+	case *MediationClientMessage_TargetUpdateResponse:
+		b.EncodeVarint(7<<3 | proto.WireBytes)
+		if err := b.EncodeMessage(x.TargetUpdateResponse); err != nil {
 			return err
 		}
 	case nil:
@@ -198,6 +257,14 @@ func _MediationClientMessage_OneofUnmarshaler(msg proto.Message, tag, wire int, 
 		err := b.DecodeMessage(msg)
 		m.MediationClientMessage = &MediationClientMessage_ActionResponse{msg}
 		return true, err
+	case 7: // mediation_client_message.targetUpdateResponse
+		if wire != proto.WireBytes {
+			return true, proto.ErrInternalBadWireType
+		}
+		msg := new(TargetUpdateResponse)
+		err := b.DecodeMessage(msg)
+		m.MediationClientMessage = &MediationClientMessage_TargetUpdateResponse{msg}
+		return true, err
 	default:
 		return false, nil
 	}
@@ -209,27 +276,32 @@ func _MediationClientMessage_OneofSizer(msg proto.Message) (n int) {
 	switch x := m.MediationClientMessage.(type) {
 	case *MediationClientMessage_ValidationResponse:
 		s := proto.Size(x.ValidationResponse)
-		n += proto.SizeVarint(2<<3 | proto.WireBytes)
+		n += 1 // tag and wire
 		n += proto.SizeVarint(uint64(s))
 		n += s
 	case *MediationClientMessage_DiscoveryResponse:
 		s := proto.Size(x.DiscoveryResponse)
-		n += proto.SizeVarint(3<<3 | proto.WireBytes)
+		n += 1 // tag and wire
 		n += proto.SizeVarint(uint64(s))
 		n += s
 	case *MediationClientMessage_KeepAlive:
 		s := proto.Size(x.KeepAlive)
-		n += proto.SizeVarint(4<<3 | proto.WireBytes)
+		n += 1 // tag and wire
 		n += proto.SizeVarint(uint64(s))
 		n += s
 	case *MediationClientMessage_ActionProgress:
 		s := proto.Size(x.ActionProgress)
-		n += proto.SizeVarint(5<<3 | proto.WireBytes)
+		n += 1 // tag and wire
 		n += proto.SizeVarint(uint64(s))
 		n += s
 	case *MediationClientMessage_ActionResponse:
 		s := proto.Size(x.ActionResponse)
-		n += proto.SizeVarint(6<<3 | proto.WireBytes)
+		n += 1 // tag and wire
+		n += proto.SizeVarint(uint64(s))
+		n += s
+	case *MediationClientMessage_TargetUpdateResponse:
+		s := proto.Size(x.TargetUpdateResponse)
+		n += 1 // tag and wire
 		n += proto.SizeVarint(uint64(s))
 		n += s
 	case nil:
@@ -247,18 +319,41 @@ type MediationServerMessage struct {
 	//	*MediationServerMessage_ActionRequest
 	//	*MediationServerMessage_InterruptOperation
 	//	*MediationServerMessage_Properties
+	//	*MediationServerMessage_TargetUpdateRequest
 	MediationServerMessage isMediationServerMessage_MediationServerMessage `protobuf_oneof:"mediation_server_message"`
 	// this is always required in reality. it's optional here because
 	// we don't know if in the future, with embedded targets, we will
 	// still use it or not
-	MessageID        *int32 `protobuf:"varint,15,opt,name=messageID" json:"messageID,omitempty"`
-	XXX_unrecognized []byte `json:"-"`
+	MessageID            *int32   `protobuf:"varint,15,opt,name=messageID" json:"messageID,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *MediationServerMessage) Reset()                    { *m = MediationServerMessage{} }
-func (m *MediationServerMessage) String() string            { return proto.CompactTextString(m) }
-func (*MediationServerMessage) ProtoMessage()               {}
-func (*MediationServerMessage) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{1} }
+func (m *MediationServerMessage) Reset()         { *m = MediationServerMessage{} }
+func (m *MediationServerMessage) String() string { return proto.CompactTextString(m) }
+func (*MediationServerMessage) ProtoMessage()    {}
+func (*MediationServerMessage) Descriptor() ([]byte, []int) {
+	return fileDescriptor_0f4aaac5b7541132, []int{1}
+}
+
+func (m *MediationServerMessage) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_MediationServerMessage.Unmarshal(m, b)
+}
+func (m *MediationServerMessage) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_MediationServerMessage.Marshal(b, m, deterministic)
+}
+func (m *MediationServerMessage) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MediationServerMessage.Merge(m, src)
+}
+func (m *MediationServerMessage) XXX_Size() int {
+	return xxx_messageInfo_MediationServerMessage.Size(m)
+}
+func (m *MediationServerMessage) XXX_DiscardUnknown() {
+	xxx_messageInfo_MediationServerMessage.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MediationServerMessage proto.InternalMessageInfo
 
 type isMediationServerMessage_MediationServerMessage interface {
 	isMediationServerMessage_MediationServerMessage()
@@ -267,24 +362,38 @@ type isMediationServerMessage_MediationServerMessage interface {
 type MediationServerMessage_ValidationRequest struct {
 	ValidationRequest *ValidationRequest `protobuf:"bytes,2,opt,name=validationRequest,oneof"`
 }
+
 type MediationServerMessage_DiscoveryRequest struct {
 	DiscoveryRequest *DiscoveryRequest `protobuf:"bytes,3,opt,name=discoveryRequest,oneof"`
 }
+
 type MediationServerMessage_ActionRequest struct {
 	ActionRequest *ActionRequest `protobuf:"bytes,4,opt,name=actionRequest,oneof"`
 }
+
 type MediationServerMessage_InterruptOperation struct {
 	InterruptOperation int32 `protobuf:"varint,5,opt,name=interruptOperation,oneof"`
 }
+
 type MediationServerMessage_Properties struct {
 	Properties *SetProperties `protobuf:"bytes,6,opt,name=properties,oneof"`
 }
 
-func (*MediationServerMessage_ValidationRequest) isMediationServerMessage_MediationServerMessage()  {}
-func (*MediationServerMessage_DiscoveryRequest) isMediationServerMessage_MediationServerMessage()   {}
-func (*MediationServerMessage_ActionRequest) isMediationServerMessage_MediationServerMessage()      {}
+type MediationServerMessage_TargetUpdateRequest struct {
+	TargetUpdateRequest *TargetUpdateRequest `protobuf:"bytes,7,opt,name=targetUpdateRequest,oneof"`
+}
+
+func (*MediationServerMessage_ValidationRequest) isMediationServerMessage_MediationServerMessage() {}
+
+func (*MediationServerMessage_DiscoveryRequest) isMediationServerMessage_MediationServerMessage() {}
+
+func (*MediationServerMessage_ActionRequest) isMediationServerMessage_MediationServerMessage() {}
+
 func (*MediationServerMessage_InterruptOperation) isMediationServerMessage_MediationServerMessage() {}
-func (*MediationServerMessage_Properties) isMediationServerMessage_MediationServerMessage()         {}
+
+func (*MediationServerMessage_Properties) isMediationServerMessage_MediationServerMessage() {}
+
+func (*MediationServerMessage_TargetUpdateRequest) isMediationServerMessage_MediationServerMessage() {}
 
 func (m *MediationServerMessage) GetMediationServerMessage() isMediationServerMessage_MediationServerMessage {
 	if m != nil {
@@ -328,6 +437,13 @@ func (m *MediationServerMessage) GetProperties() *SetProperties {
 	return nil
 }
 
+func (m *MediationServerMessage) GetTargetUpdateRequest() *TargetUpdateRequest {
+	if x, ok := m.GetMediationServerMessage().(*MediationServerMessage_TargetUpdateRequest); ok {
+		return x.TargetUpdateRequest
+	}
+	return nil
+}
+
 func (m *MediationServerMessage) GetMessageID() int32 {
 	if m != nil && m.MessageID != nil {
 		return *m.MessageID
@@ -343,6 +459,7 @@ func (*MediationServerMessage) XXX_OneofFuncs() (func(msg proto.Message, b *prot
 		(*MediationServerMessage_ActionRequest)(nil),
 		(*MediationServerMessage_InterruptOperation)(nil),
 		(*MediationServerMessage_Properties)(nil),
+		(*MediationServerMessage_TargetUpdateRequest)(nil),
 	}
 }
 
@@ -371,6 +488,11 @@ func _MediationServerMessage_OneofMarshaler(msg proto.Message, b *proto.Buffer) 
 	case *MediationServerMessage_Properties:
 		b.EncodeVarint(6<<3 | proto.WireBytes)
 		if err := b.EncodeMessage(x.Properties); err != nil {
+			return err
+		}
+	case *MediationServerMessage_TargetUpdateRequest:
+		b.EncodeVarint(7<<3 | proto.WireBytes)
+		if err := b.EncodeMessage(x.TargetUpdateRequest); err != nil {
 			return err
 		}
 	case nil:
@@ -422,6 +544,14 @@ func _MediationServerMessage_OneofUnmarshaler(msg proto.Message, tag, wire int, 
 		err := b.DecodeMessage(msg)
 		m.MediationServerMessage = &MediationServerMessage_Properties{msg}
 		return true, err
+	case 7: // mediation_server_message.targetUpdateRequest
+		if wire != proto.WireBytes {
+			return true, proto.ErrInternalBadWireType
+		}
+		msg := new(TargetUpdateRequest)
+		err := b.DecodeMessage(msg)
+		m.MediationServerMessage = &MediationServerMessage_TargetUpdateRequest{msg}
+		return true, err
 	default:
 		return false, nil
 	}
@@ -433,25 +563,30 @@ func _MediationServerMessage_OneofSizer(msg proto.Message) (n int) {
 	switch x := m.MediationServerMessage.(type) {
 	case *MediationServerMessage_ValidationRequest:
 		s := proto.Size(x.ValidationRequest)
-		n += proto.SizeVarint(2<<3 | proto.WireBytes)
+		n += 1 // tag and wire
 		n += proto.SizeVarint(uint64(s))
 		n += s
 	case *MediationServerMessage_DiscoveryRequest:
 		s := proto.Size(x.DiscoveryRequest)
-		n += proto.SizeVarint(3<<3 | proto.WireBytes)
+		n += 1 // tag and wire
 		n += proto.SizeVarint(uint64(s))
 		n += s
 	case *MediationServerMessage_ActionRequest:
 		s := proto.Size(x.ActionRequest)
-		n += proto.SizeVarint(4<<3 | proto.WireBytes)
+		n += 1 // tag and wire
 		n += proto.SizeVarint(uint64(s))
 		n += s
 	case *MediationServerMessage_InterruptOperation:
-		n += proto.SizeVarint(5<<3 | proto.WireVarint)
+		n += 1 // tag and wire
 		n += proto.SizeVarint(uint64(x.InterruptOperation))
 	case *MediationServerMessage_Properties:
 		s := proto.Size(x.Properties)
-		n += proto.SizeVarint(6<<3 | proto.WireBytes)
+		n += 1 // tag and wire
+		n += proto.SizeVarint(uint64(s))
+		n += s
+	case *MediationServerMessage_TargetUpdateRequest:
+		s := proto.Size(x.TargetUpdateRequest)
+		n += 1 // tag and wire
 		n += proto.SizeVarint(uint64(s))
 		n += s
 	case nil:
@@ -472,13 +607,35 @@ type ActionRequest struct {
 	// For Cross Destination actions (from one target to another) 2 sets of account
 	// values are needed
 	SecondaryAccountValue []*AccountValue `protobuf:"bytes,4,rep,name=secondaryAccountValue" json:"secondaryAccountValue,omitempty"`
+	XXX_NoUnkeyedLiteral  struct{}        `json:"-"`
 	XXX_unrecognized      []byte          `json:"-"`
+	XXX_sizecache         int32           `json:"-"`
 }
 
-func (m *ActionRequest) Reset()                    { *m = ActionRequest{} }
-func (m *ActionRequest) String() string            { return proto.CompactTextString(m) }
-func (*ActionRequest) ProtoMessage()               {}
-func (*ActionRequest) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{2} }
+func (m *ActionRequest) Reset()         { *m = ActionRequest{} }
+func (m *ActionRequest) String() string { return proto.CompactTextString(m) }
+func (*ActionRequest) ProtoMessage()    {}
+func (*ActionRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_0f4aaac5b7541132, []int{2}
+}
+
+func (m *ActionRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ActionRequest.Unmarshal(m, b)
+}
+func (m *ActionRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ActionRequest.Marshal(b, m, deterministic)
+}
+func (m *ActionRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ActionRequest.Merge(m, src)
+}
+func (m *ActionRequest) XXX_Size() int {
+	return xxx_messageInfo_ActionRequest.Size(m)
+}
+func (m *ActionRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_ActionRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ActionRequest proto.InternalMessageInfo
 
 func (m *ActionRequest) GetProbeType() string {
 	if m != nil && m.ProbeType != nil {
@@ -511,14 +668,36 @@ func (m *ActionRequest) GetSecondaryAccountValue() []*AccountValue {
 // Result of the action execution. It is translated only once
 // after action execution is either completed or failed
 type ActionResult struct {
-	Response         *ActionResponse `protobuf:"bytes,1,req,name=response" json:"response,omitempty"`
-	XXX_unrecognized []byte          `json:"-"`
+	Response             *ActionResponse `protobuf:"bytes,1,req,name=response" json:"response,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}        `json:"-"`
+	XXX_unrecognized     []byte          `json:"-"`
+	XXX_sizecache        int32           `json:"-"`
 }
 
-func (m *ActionResult) Reset()                    { *m = ActionResult{} }
-func (m *ActionResult) String() string            { return proto.CompactTextString(m) }
-func (*ActionResult) ProtoMessage()               {}
-func (*ActionResult) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{3} }
+func (m *ActionResult) Reset()         { *m = ActionResult{} }
+func (m *ActionResult) String() string { return proto.CompactTextString(m) }
+func (*ActionResult) ProtoMessage()    {}
+func (*ActionResult) Descriptor() ([]byte, []int) {
+	return fileDescriptor_0f4aaac5b7541132, []int{3}
+}
+
+func (m *ActionResult) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ActionResult.Unmarshal(m, b)
+}
+func (m *ActionResult) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ActionResult.Marshal(b, m, deterministic)
+}
+func (m *ActionResult) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ActionResult.Merge(m, src)
+}
+func (m *ActionResult) XXX_Size() int {
+	return xxx_messageInfo_ActionResult.Size(m)
+}
+func (m *ActionResult) XXX_DiscardUnknown() {
+	xxx_messageInfo_ActionResult.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ActionResult proto.InternalMessageInfo
 
 func (m *ActionResult) GetResponse() *ActionResponse {
 	if m != nil {
@@ -530,14 +709,36 @@ func (m *ActionResult) GetResponse() *ActionResponse {
 // Progress of the currently executed action. Can be send multiple times
 // for each action
 type ActionProgress struct {
-	Response         *ActionResponse `protobuf:"bytes,1,req,name=response" json:"response,omitempty"`
-	XXX_unrecognized []byte          `json:"-"`
+	Response             *ActionResponse `protobuf:"bytes,1,req,name=response" json:"response,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}        `json:"-"`
+	XXX_unrecognized     []byte          `json:"-"`
+	XXX_sizecache        int32           `json:"-"`
 }
 
-func (m *ActionProgress) Reset()                    { *m = ActionProgress{} }
-func (m *ActionProgress) String() string            { return proto.CompactTextString(m) }
-func (*ActionProgress) ProtoMessage()               {}
-func (*ActionProgress) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{4} }
+func (m *ActionProgress) Reset()         { *m = ActionProgress{} }
+func (m *ActionProgress) String() string { return proto.CompactTextString(m) }
+func (*ActionProgress) ProtoMessage()    {}
+func (*ActionProgress) Descriptor() ([]byte, []int) {
+	return fileDescriptor_0f4aaac5b7541132, []int{4}
+}
+
+func (m *ActionProgress) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ActionProgress.Unmarshal(m, b)
+}
+func (m *ActionProgress) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ActionProgress.Marshal(b, m, deterministic)
+}
+func (m *ActionProgress) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ActionProgress.Merge(m, src)
+}
+func (m *ActionProgress) XXX_Size() int {
+	return xxx_messageInfo_ActionProgress.Size(m)
+}
+func (m *ActionProgress) XXX_DiscardUnknown() {
+	xxx_messageInfo_ActionProgress.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ActionProgress proto.InternalMessageInfo
 
 func (m *ActionProgress) GetResponse() *ActionResponse {
 	if m != nil {
@@ -555,14 +756,36 @@ type ActionResponse struct {
 	// current action progress (0..100)
 	Progress *int32 `protobuf:"varint,2,req,name=progress" json:"progress,omitempty"`
 	// action state description, for example ("Moving VM...")
-	ResponseDescription *string `protobuf:"bytes,3,req,name=responseDescription" json:"responseDescription,omitempty"`
-	XXX_unrecognized    []byte  `json:"-"`
+	ResponseDescription  *string  `protobuf:"bytes,3,req,name=responseDescription" json:"responseDescription,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *ActionResponse) Reset()                    { *m = ActionResponse{} }
-func (m *ActionResponse) String() string            { return proto.CompactTextString(m) }
-func (*ActionResponse) ProtoMessage()               {}
-func (*ActionResponse) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{5} }
+func (m *ActionResponse) Reset()         { *m = ActionResponse{} }
+func (m *ActionResponse) String() string { return proto.CompactTextString(m) }
+func (*ActionResponse) ProtoMessage()    {}
+func (*ActionResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_0f4aaac5b7541132, []int{5}
+}
+
+func (m *ActionResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ActionResponse.Unmarshal(m, b)
+}
+func (m *ActionResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ActionResponse.Marshal(b, m, deterministic)
+}
+func (m *ActionResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ActionResponse.Merge(m, src)
+}
+func (m *ActionResponse) XXX_Size() int {
+	return xxx_messageInfo_ActionResponse.Size(m)
+}
+func (m *ActionResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_ActionResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ActionResponse proto.InternalMessageInfo
 
 func (m *ActionResponse) GetActionResponseState() ActionResponseState {
 	if m != nil && m.ActionResponseState != nil {
@@ -585,19 +808,83 @@ func (m *ActionResponse) GetResponseDescription() string {
 	return ""
 }
 
+// TargetUpdateResponse is the response of a TargetUpdateRequest message.
+// It contains the response, and any errors encountered during the target update attempt.
+type TargetUpdateResponse struct {
+	// Errors, discovered during external probe operation
+	ErrorDTO             []*ErrorDTO `protobuf:"bytes,1,rep,name=errorDTO" json:"errorDTO,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}    `json:"-"`
+	XXX_unrecognized     []byte      `json:"-"`
+	XXX_sizecache        int32       `json:"-"`
+}
+
+func (m *TargetUpdateResponse) Reset()         { *m = TargetUpdateResponse{} }
+func (m *TargetUpdateResponse) String() string { return proto.CompactTextString(m) }
+func (*TargetUpdateResponse) ProtoMessage()    {}
+func (*TargetUpdateResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_0f4aaac5b7541132, []int{6}
+}
+
+func (m *TargetUpdateResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_TargetUpdateResponse.Unmarshal(m, b)
+}
+func (m *TargetUpdateResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_TargetUpdateResponse.Marshal(b, m, deterministic)
+}
+func (m *TargetUpdateResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_TargetUpdateResponse.Merge(m, src)
+}
+func (m *TargetUpdateResponse) XXX_Size() int {
+	return xxx_messageInfo_TargetUpdateResponse.Size(m)
+}
+func (m *TargetUpdateResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_TargetUpdateResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_TargetUpdateResponse proto.InternalMessageInfo
+
+func (m *TargetUpdateResponse) GetErrorDTO() []*ErrorDTO {
+	if m != nil {
+		return m.ErrorDTO
+	}
+	return nil
+}
+
 // ContainerInfo message to the Operations Manager server.
 // This message passes probe descriptions to the server.
 type ContainerInfo struct {
 	// Set of ProbeInfo objects, each one will carry information about one of the probe
 	// that the container has loaded internally.
-	Probes           []*ProbeInfo `protobuf:"bytes,1,rep,name=probes" json:"probes,omitempty"`
-	XXX_unrecognized []byte       `json:"-"`
+	Probes               []*ProbeInfo `protobuf:"bytes,1,rep,name=probes" json:"probes,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}     `json:"-"`
+	XXX_unrecognized     []byte       `json:"-"`
+	XXX_sizecache        int32        `json:"-"`
 }
 
-func (m *ContainerInfo) Reset()                    { *m = ContainerInfo{} }
-func (m *ContainerInfo) String() string            { return proto.CompactTextString(m) }
-func (*ContainerInfo) ProtoMessage()               {}
-func (*ContainerInfo) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{6} }
+func (m *ContainerInfo) Reset()         { *m = ContainerInfo{} }
+func (m *ContainerInfo) String() string { return proto.CompactTextString(m) }
+func (*ContainerInfo) ProtoMessage()    {}
+func (*ContainerInfo) Descriptor() ([]byte, []int) {
+	return fileDescriptor_0f4aaac5b7541132, []int{7}
+}
+
+func (m *ContainerInfo) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ContainerInfo.Unmarshal(m, b)
+}
+func (m *ContainerInfo) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ContainerInfo.Marshal(b, m, deterministic)
+}
+func (m *ContainerInfo) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ContainerInfo.Merge(m, src)
+}
+func (m *ContainerInfo) XXX_Size() int {
+	return xxx_messageInfo_ContainerInfo.Size(m)
+}
+func (m *ContainerInfo) XXX_DiscardUnknown() {
+	xxx_messageInfo_ContainerInfo.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ContainerInfo proto.InternalMessageInfo
 
 func (m *ContainerInfo) GetProbes() []*ProbeInfo {
 	if m != nil {
@@ -607,22 +894,66 @@ func (m *ContainerInfo) GetProbes() []*ProbeInfo {
 }
 
 type KeepAlive struct {
-	XXX_unrecognized []byte `json:"-"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *KeepAlive) Reset()                    { *m = KeepAlive{} }
-func (m *KeepAlive) String() string            { return proto.CompactTextString(m) }
-func (*KeepAlive) ProtoMessage()               {}
-func (*KeepAlive) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{7} }
+func (m *KeepAlive) Reset()         { *m = KeepAlive{} }
+func (m *KeepAlive) String() string { return proto.CompactTextString(m) }
+func (*KeepAlive) ProtoMessage()    {}
+func (*KeepAlive) Descriptor() ([]byte, []int) {
+	return fileDescriptor_0f4aaac5b7541132, []int{8}
+}
+
+func (m *KeepAlive) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_KeepAlive.Unmarshal(m, b)
+}
+func (m *KeepAlive) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_KeepAlive.Marshal(b, m, deterministic)
+}
+func (m *KeepAlive) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_KeepAlive.Merge(m, src)
+}
+func (m *KeepAlive) XXX_Size() int {
+	return xxx_messageInfo_KeepAlive.Size(m)
+}
+func (m *KeepAlive) XXX_DiscardUnknown() {
+	xxx_messageInfo_KeepAlive.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_KeepAlive proto.InternalMessageInfo
 
 type Ack struct {
-	XXX_unrecognized []byte `json:"-"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *Ack) Reset()                    { *m = Ack{} }
-func (m *Ack) String() string            { return proto.CompactTextString(m) }
-func (*Ack) ProtoMessage()               {}
-func (*Ack) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{8} }
+func (m *Ack) Reset()         { *m = Ack{} }
+func (m *Ack) String() string { return proto.CompactTextString(m) }
+func (*Ack) ProtoMessage()    {}
+func (*Ack) Descriptor() ([]byte, []int) {
+	return fileDescriptor_0f4aaac5b7541132, []int{9}
+}
+
+func (m *Ack) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_Ack.Unmarshal(m, b)
+}
+func (m *Ack) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_Ack.Marshal(b, m, deterministic)
+}
+func (m *Ack) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Ack.Merge(m, src)
+}
+func (m *Ack) XXX_Size() int {
+	return xxx_messageInfo_Ack.Size(m)
+}
+func (m *Ack) XXX_DiscardUnknown() {
+	xxx_messageInfo_Ack.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_Ack proto.InternalMessageInfo
 
 // This message is sent from the server to the client when the client is successfully registered
 // and contains important initialization information.  For the time being, this message ensures
@@ -631,14 +962,36 @@ func (*Ack) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{8} }
 // Later, this message may contain more initialization information that a client must obtain at
 // least once.
 type InitializationContent struct {
-	ProbeProperties  *SetProperties `protobuf:"bytes,1,req,name=probeProperties" json:"probeProperties,omitempty"`
-	XXX_unrecognized []byte         `json:"-"`
+	ProbeProperties      *SetProperties `protobuf:"bytes,1,req,name=probeProperties" json:"probeProperties,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}       `json:"-"`
+	XXX_unrecognized     []byte         `json:"-"`
+	XXX_sizecache        int32          `json:"-"`
 }
 
-func (m *InitializationContent) Reset()                    { *m = InitializationContent{} }
-func (m *InitializationContent) String() string            { return proto.CompactTextString(m) }
-func (*InitializationContent) ProtoMessage()               {}
-func (*InitializationContent) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{9} }
+func (m *InitializationContent) Reset()         { *m = InitializationContent{} }
+func (m *InitializationContent) String() string { return proto.CompactTextString(m) }
+func (*InitializationContent) ProtoMessage()    {}
+func (*InitializationContent) Descriptor() ([]byte, []int) {
+	return fileDescriptor_0f4aaac5b7541132, []int{10}
+}
+
+func (m *InitializationContent) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_InitializationContent.Unmarshal(m, b)
+}
+func (m *InitializationContent) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_InitializationContent.Marshal(b, m, deterministic)
+}
+func (m *InitializationContent) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_InitializationContent.Merge(m, src)
+}
+func (m *InitializationContent) XXX_Size() int {
+	return xxx_messageInfo_InitializationContent.Size(m)
+}
+func (m *InitializationContent) XXX_DiscardUnknown() {
+	xxx_messageInfo_InitializationContent.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_InitializationContent proto.InternalMessageInfo
 
 func (m *InitializationContent) GetProbeProperties() *SetProperties {
 	if m != nil {
@@ -648,15 +1001,37 @@ func (m *InitializationContent) GetProbeProperties() *SetProperties {
 }
 
 type ValidationRequest struct {
-	ProbeType        *string         `protobuf:"bytes,1,req,name=probeType" json:"probeType,omitempty"`
-	AccountValue     []*AccountValue `protobuf:"bytes,2,rep,name=accountValue" json:"accountValue,omitempty"`
-	XXX_unrecognized []byte          `json:"-"`
+	ProbeType            *string         `protobuf:"bytes,1,req,name=probeType" json:"probeType,omitempty"`
+	AccountValue         []*AccountValue `protobuf:"bytes,2,rep,name=accountValue" json:"accountValue,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}        `json:"-"`
+	XXX_unrecognized     []byte          `json:"-"`
+	XXX_sizecache        int32           `json:"-"`
 }
 
-func (m *ValidationRequest) Reset()                    { *m = ValidationRequest{} }
-func (m *ValidationRequest) String() string            { return proto.CompactTextString(m) }
-func (*ValidationRequest) ProtoMessage()               {}
-func (*ValidationRequest) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{10} }
+func (m *ValidationRequest) Reset()         { *m = ValidationRequest{} }
+func (m *ValidationRequest) String() string { return proto.CompactTextString(m) }
+func (*ValidationRequest) ProtoMessage()    {}
+func (*ValidationRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_0f4aaac5b7541132, []int{11}
+}
+
+func (m *ValidationRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ValidationRequest.Unmarshal(m, b)
+}
+func (m *ValidationRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ValidationRequest.Marshal(b, m, deterministic)
+}
+func (m *ValidationRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ValidationRequest.Merge(m, src)
+}
+func (m *ValidationRequest) XXX_Size() int {
+	return xxx_messageInfo_ValidationRequest.Size(m)
+}
+func (m *ValidationRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_ValidationRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ValidationRequest proto.InternalMessageInfo
 
 func (m *ValidationRequest) GetProbeType() string {
 	if m != nil && m.ProbeType != nil {
@@ -676,14 +1051,39 @@ type DiscoveryRequest struct {
 	ProbeType    *string         `protobuf:"bytes,1,req,name=probeType" json:"probeType,omitempty"`
 	AccountValue []*AccountValue `protobuf:"bytes,2,rep,name=accountValue" json:"accountValue,omitempty"`
 	// the type of discovery defined by this request
-	DiscoveryType    *DiscoveryType `protobuf:"varint,3,req,name=discoveryType,enum=common_dto.DiscoveryType" json:"discoveryType,omitempty"`
-	XXX_unrecognized []byte         `json:"-"`
+	DiscoveryType *DiscoveryType `protobuf:"varint,3,req,name=discoveryType,enum=common_dto.DiscoveryType" json:"discoveryType,omitempty"`
+	// Discovery context contains data that was sent by the probe to the server in the previous
+	// discovery response.
+	DiscoveryContext     *DiscoveryContextDTO `protobuf:"bytes,4,opt,name=discoveryContext" json:"discoveryContext,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}             `json:"-"`
+	XXX_unrecognized     []byte               `json:"-"`
+	XXX_sizecache        int32                `json:"-"`
 }
 
-func (m *DiscoveryRequest) Reset()                    { *m = DiscoveryRequest{} }
-func (m *DiscoveryRequest) String() string            { return proto.CompactTextString(m) }
-func (*DiscoveryRequest) ProtoMessage()               {}
-func (*DiscoveryRequest) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{11} }
+func (m *DiscoveryRequest) Reset()         { *m = DiscoveryRequest{} }
+func (m *DiscoveryRequest) String() string { return proto.CompactTextString(m) }
+func (*DiscoveryRequest) ProtoMessage()    {}
+func (*DiscoveryRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_0f4aaac5b7541132, []int{12}
+}
+
+func (m *DiscoveryRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_DiscoveryRequest.Unmarshal(m, b)
+}
+func (m *DiscoveryRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_DiscoveryRequest.Marshal(b, m, deterministic)
+}
+func (m *DiscoveryRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_DiscoveryRequest.Merge(m, src)
+}
+func (m *DiscoveryRequest) XXX_Size() int {
+	return xxx_messageInfo_DiscoveryRequest.Size(m)
+}
+func (m *DiscoveryRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_DiscoveryRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_DiscoveryRequest proto.InternalMessageInfo
 
 func (m *DiscoveryRequest) GetProbeType() string {
 	if m != nil && m.ProbeType != nil {
@@ -704,6 +1104,71 @@ func (m *DiscoveryRequest) GetDiscoveryType() DiscoveryType {
 		return *m.DiscoveryType
 	}
 	return DiscoveryType_FULL
+}
+
+func (m *DiscoveryRequest) GetDiscoveryContext() *DiscoveryContextDTO {
+	if m != nil {
+		return m.DiscoveryContext
+	}
+	return nil
+}
+
+// This message is sent from server to the client that notify to update or delete
+// remote probe instance.
+type TargetUpdateRequest struct {
+	ProbeType    *string         `protobuf:"bytes,1,req,name=probeType" json:"probeType,omitempty"`
+	AccountValue []*AccountValue `protobuf:"bytes,2,rep,name=accountValue" json:"accountValue,omitempty"`
+	// the type of update defined by this request
+	UpdateType           *UpdateType `protobuf:"varint,3,req,name=updateType,enum=common_dto.UpdateType" json:"updateType,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}    `json:"-"`
+	XXX_unrecognized     []byte      `json:"-"`
+	XXX_sizecache        int32       `json:"-"`
+}
+
+func (m *TargetUpdateRequest) Reset()         { *m = TargetUpdateRequest{} }
+func (m *TargetUpdateRequest) String() string { return proto.CompactTextString(m) }
+func (*TargetUpdateRequest) ProtoMessage()    {}
+func (*TargetUpdateRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_0f4aaac5b7541132, []int{13}
+}
+
+func (m *TargetUpdateRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_TargetUpdateRequest.Unmarshal(m, b)
+}
+func (m *TargetUpdateRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_TargetUpdateRequest.Marshal(b, m, deterministic)
+}
+func (m *TargetUpdateRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_TargetUpdateRequest.Merge(m, src)
+}
+func (m *TargetUpdateRequest) XXX_Size() int {
+	return xxx_messageInfo_TargetUpdateRequest.Size(m)
+}
+func (m *TargetUpdateRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_TargetUpdateRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_TargetUpdateRequest proto.InternalMessageInfo
+
+func (m *TargetUpdateRequest) GetProbeType() string {
+	if m != nil && m.ProbeType != nil {
+		return *m.ProbeType
+	}
+	return ""
+}
+
+func (m *TargetUpdateRequest) GetAccountValue() []*AccountValue {
+	if m != nil {
+		return m.AccountValue
+	}
+	return nil
+}
+
+func (m *TargetUpdateRequest) GetUpdateType() UpdateType {
+	if m != nil && m.UpdateType != nil {
+		return *m.UpdateType
+	}
+	return UpdateType_UPDATED
 }
 
 // The ProbeInfo class provides a description of the probe that enables users to
@@ -785,14 +1250,36 @@ type ProbeInfo struct {
 	// Specifies the interval at which performance discoveries will be executed for this probe.
 	// The value is specified in seconds. If no value is provided for performanceRediscoveryIntervalSeconds
 	// a default of -1 will be used, which means the probe doesn't support performance discovery
-	PerformanceRediscoveryIntervalSeconds *int32 `protobuf:"varint,11,opt,name=performanceRediscoveryIntervalSeconds" json:"performanceRediscoveryIntervalSeconds,omitempty"`
-	XXX_unrecognized                      []byte `json:"-"`
+	PerformanceRediscoveryIntervalSeconds *int32   `protobuf:"varint,11,opt,name=performanceRediscoveryIntervalSeconds" json:"performanceRediscoveryIntervalSeconds,omitempty"`
+	XXX_NoUnkeyedLiteral                  struct{} `json:"-"`
+	XXX_unrecognized                      []byte   `json:"-"`
+	XXX_sizecache                         int32    `json:"-"`
 }
 
-func (m *ProbeInfo) Reset()                    { *m = ProbeInfo{} }
-func (m *ProbeInfo) String() string            { return proto.CompactTextString(m) }
-func (*ProbeInfo) ProtoMessage()               {}
-func (*ProbeInfo) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{12} }
+func (m *ProbeInfo) Reset()         { *m = ProbeInfo{} }
+func (m *ProbeInfo) String() string { return proto.CompactTextString(m) }
+func (*ProbeInfo) ProtoMessage()    {}
+func (*ProbeInfo) Descriptor() ([]byte, []int) {
+	return fileDescriptor_0f4aaac5b7541132, []int{14}
+}
+
+func (m *ProbeInfo) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ProbeInfo.Unmarshal(m, b)
+}
+func (m *ProbeInfo) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ProbeInfo.Marshal(b, m, deterministic)
+}
+func (m *ProbeInfo) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ProbeInfo.Merge(m, src)
+}
+func (m *ProbeInfo) XXX_Size() int {
+	return xxx_messageInfo_ProbeInfo.Size(m)
+}
+func (m *ProbeInfo) XXX_DiscardUnknown() {
+	xxx_messageInfo_ProbeInfo.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ProbeInfo proto.InternalMessageInfo
 
 const Default_ProbeInfo_DiscoversSupplyChain bool = true
 
@@ -876,14 +1363,36 @@ func (m *ProbeInfo) GetPerformanceRediscoveryIntervalSeconds() int32 {
 // The {@code SetProperties} message sends a collection of properties to a target in the form
 // of a map from string to string.
 type SetProperties struct {
-	Properties       map[string]string `protobuf:"bytes,4,rep,name=properties" json:"properties,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
-	XXX_unrecognized []byte            `json:"-"`
+	Properties           map[string]string `protobuf:"bytes,4,rep,name=properties" json:"properties,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	XXX_NoUnkeyedLiteral struct{}          `json:"-"`
+	XXX_unrecognized     []byte            `json:"-"`
+	XXX_sizecache        int32             `json:"-"`
 }
 
-func (m *SetProperties) Reset()                    { *m = SetProperties{} }
-func (m *SetProperties) String() string            { return proto.CompactTextString(m) }
-func (*SetProperties) ProtoMessage()               {}
-func (*SetProperties) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{13} }
+func (m *SetProperties) Reset()         { *m = SetProperties{} }
+func (m *SetProperties) String() string { return proto.CompactTextString(m) }
+func (*SetProperties) ProtoMessage()    {}
+func (*SetProperties) Descriptor() ([]byte, []int) {
+	return fileDescriptor_0f4aaac5b7541132, []int{15}
+}
+
+func (m *SetProperties) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_SetProperties.Unmarshal(m, b)
+}
+func (m *SetProperties) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_SetProperties.Marshal(b, m, deterministic)
+}
+func (m *SetProperties) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_SetProperties.Merge(m, src)
+}
+func (m *SetProperties) XXX_Size() int {
+	return xxx_messageInfo_SetProperties.Size(m)
+}
+func (m *SetProperties) XXX_DiscardUnknown() {
+	xxx_messageInfo_SetProperties.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_SetProperties proto.InternalMessageInfo
 
 func (m *SetProperties) GetProperties() map[string]string {
 	if m != nil {
@@ -899,83 +1408,93 @@ func init() {
 	proto.RegisterType((*ActionResult)(nil), "common_dto.ActionResult")
 	proto.RegisterType((*ActionProgress)(nil), "common_dto.ActionProgress")
 	proto.RegisterType((*ActionResponse)(nil), "common_dto.ActionResponse")
+	proto.RegisterType((*TargetUpdateResponse)(nil), "common_dto.TargetUpdateResponse")
 	proto.RegisterType((*ContainerInfo)(nil), "common_dto.ContainerInfo")
 	proto.RegisterType((*KeepAlive)(nil), "common_dto.KeepAlive")
 	proto.RegisterType((*Ack)(nil), "common_dto.Ack")
 	proto.RegisterType((*InitializationContent)(nil), "common_dto.InitializationContent")
 	proto.RegisterType((*ValidationRequest)(nil), "common_dto.ValidationRequest")
 	proto.RegisterType((*DiscoveryRequest)(nil), "common_dto.DiscoveryRequest")
+	proto.RegisterType((*TargetUpdateRequest)(nil), "common_dto.TargetUpdateRequest")
 	proto.RegisterType((*ProbeInfo)(nil), "common_dto.ProbeInfo")
 	proto.RegisterType((*SetProperties)(nil), "common_dto.SetProperties")
+	proto.RegisterMapType((map[string]string)(nil), "common_dto.SetProperties.PropertiesEntry")
 }
 
-func init() { proto.RegisterFile("MediationMessage.proto", fileDescriptor4) }
+func init() { proto.RegisterFile("MediationMessage.proto", fileDescriptor_0f4aaac5b7541132) }
 
-var fileDescriptor4 = []byte{
-	// 1025 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xb4, 0x56, 0xd9, 0x6e, 0xdb, 0x46,
-	0x14, 0x35, 0xa5, 0x28, 0xb5, 0xae, 0x23, 0x2f, 0x93, 0x38, 0x65, 0xd4, 0x2c, 0x02, 0xd1, 0x02,
-	0xea, 0x43, 0x85, 0x20, 0x5d, 0x10, 0xa4, 0x4b, 0x20, 0x5b, 0x36, 0xa4, 0x14, 0x4a, 0xdc, 0x91,
-	0x91, 0xa7, 0x02, 0xc6, 0x84, 0xba, 0x72, 0x07, 0xa6, 0x38, 0xec, 0x70, 0x24, 0x54, 0xfd, 0x85,
-	0x7e, 0x41, 0x9f, 0xfa, 0x09, 0x45, 0x81, 0x7e, 0x50, 0x3f, 0xa5, 0x98, 0xe1, 0x2e, 0x52, 0x71,
-	0x5a, 0x20, 0x6f, 0xe4, 0xdc, 0x73, 0x0e, 0xef, 0xce, 0x81, 0xbb, 0x63, 0x9c, 0x72, 0xa6, 0xb8,
-	0xf0, 0xc7, 0x18, 0x86, 0xec, 0x12, 0x7b, 0x81, 0x14, 0x4a, 0x10, 0x70, 0xc5, 0x7c, 0x2e, 0xfc,
-	0x8b, 0xa9, 0x12, 0xed, 0xc3, 0xbe, 0xab, 0x01, 0x27, 0xbf, 0xa0, 0xbb, 0xd0, 0x0f, 0x11, 0xa4,
-	0xbd, 0x37, 0xe0, 0xa1, 0x2b, 0x96, 0x28, 0x57, 0xf1, 0xc1, 0xc1, 0x64, 0x11, 0x04, 0xde, 0xea,
-	0xf8, 0x27, 0xc6, 0x13, 0xcc, 0xdd, 0xd1, 0x14, 0x7d, 0xc5, 0xd5, 0x6a, 0x8c, 0x8a, 0x4d, 0x99,
-	0x62, 0xd1, 0xb9, 0xf3, 0x77, 0x3d, 0xf7, 0xe5, 0x63, 0x8f, 0xa3, 0xaf, 0xe2, 0xef, 0x93, 0x33,
-	0x20, 0x4b, 0xe6, 0xf1, 0xa9, 0x31, 0x51, 0x0c, 0x03, 0xe1, 0x87, 0x68, 0xd7, 0x3a, 0x56, 0x77,
-	0xe7, 0xc9, 0xc3, 0x5e, 0xe6, 0x56, 0xef, 0x75, 0x09, 0x35, 0xdc, 0xa2, 0x15, 0x5c, 0x32, 0x86,
-	0x83, 0x69, 0xe2, 0x6a, 0x2a, 0x58, 0x37, 0x82, 0x0f, 0xf2, 0x82, 0x83, 0x75, 0xd0, 0x70, 0x8b,
-	0x96, 0x99, 0xe4, 0x4b, 0x68, 0x5e, 0x21, 0x06, 0x7d, 0x8f, 0x2f, 0xd1, 0xbe, 0x61, 0x64, 0x0e,
-	0xf3, 0x32, 0xdf, 0x27, 0xc6, 0xe1, 0x16, 0xcd, 0x90, 0x64, 0x00, 0xbb, 0xcc, 0xe4, 0xf1, 0x4c,
-	0x8a, 0x4b, 0x89, 0x61, 0x68, 0x37, 0x0c, 0xb7, 0x9d, 0xe7, 0xf6, 0x0b, 0x88, 0xe1, 0x16, 0x5d,
-	0xe3, 0x90, 0xa3, 0x44, 0x25, 0x0d, 0xe4, 0xa6, 0x51, 0xb1, 0xcb, 0x2a, 0x14, 0xc3, 0x85, 0xa7,
-	0x32, 0x8d, 0x34, 0x80, 0xfb, 0xd0, 0x9c, 0x47, 0xc9, 0x1e, 0x0d, 0xec, 0xbd, 0x8e, 0xd5, 0x6d,
-	0xd0, 0xec, 0xe0, 0xa8, 0x0d, 0xf6, 0x3c, 0xa9, 0xcc, 0x85, 0x6b, 0x4a, 0x73, 0x11, 0x5b, 0x9d,
-	0x3f, 0xf2, 0x65, 0x9b, 0xa0, 0x5c, 0xa2, 0x4c, 0xca, 0x36, 0x86, 0x83, 0x7c, 0xea, 0x7f, 0x5e,
-	0x60, 0xa8, 0xe2, 0xaa, 0x3d, 0xd8, 0x54, 0x35, 0x03, 0xd2, 0x49, 0x2e, 0x31, 0xc9, 0x0b, 0xd8,
-	0xcf, 0x65, 0x3e, 0x52, 0x8b, 0x4a, 0x76, 0x7f, 0x43, 0xc9, 0x12, 0xb1, 0x12, 0x8f, 0xf4, 0xa1,
-	0x95, 0x64, 0x20, 0x12, 0x8a, 0x8a, 0x76, 0xaf, 0x2a, 0x65, 0x89, 0x4a, 0x91, 0x41, 0x1e, 0x03,
-	0xe1, 0xbe, 0x42, 0x29, 0x17, 0x81, 0x7a, 0x15, 0xa0, 0x34, 0xbe, 0x9a, 0x02, 0x36, 0x74, 0xd3,
-	0x95, 0x6d, 0xe4, 0x6b, 0x80, 0x40, 0x8a, 0x00, 0xa5, 0xe2, 0x18, 0xc6, 0x45, 0x2a, 0x7c, 0x71,
-	0x82, 0xea, 0x2c, 0x05, 0x0c, 0xb7, 0x68, 0x0e, 0xfe, 0x5f, 0x2a, 0x14, 0x9a, 0x2a, 0xa4, 0x15,
-	0xfa, 0xad, 0x06, 0xad, 0x42, 0x2c, 0x5a, 0x2b, 0x90, 0xe2, 0x0d, 0x9e, 0xaf, 0x02, 0xb4, 0xad,
-	0x4e, 0xad, 0xdb, 0xa4, 0xd9, 0x01, 0xf9, 0x06, 0x6e, 0x31, 0xd7, 0x15, 0x0b, 0x5f, 0xbd, 0x66,
-	0xde, 0x42, 0xcf, 0x59, 0xbd, 0xdc, 0x4d, 0x99, 0x9d, 0x16, 0xd0, 0xe4, 0x25, 0x10, 0x56, 0xdc,
-	0x0d, 0x83, 0xf3, 0x57, 0x76, 0xbd, 0x53, 0x5b, 0x9f, 0xd5, 0x7e, 0x09, 0x45, 0x2b, 0x98, 0xe4,
-	0x25, 0x1c, 0x86, 0xe8, 0x0a, 0x7f, 0xca, 0xe4, 0x2a, 0xff, 0x59, 0xfb, 0xc6, 0x35, 0x6e, 0x55,
-	0xd3, 0x9c, 0x53, 0xb8, 0x95, 0x9f, 0x05, 0xf2, 0x15, 0x6c, 0xcb, 0x64, 0x6e, 0x2c, 0xe3, 0x65,
-	0xbb, 0x72, 0x6e, 0x0c, 0x82, 0xa6, 0x58, 0x67, 0x08, 0xbb, 0xc5, 0xc9, 0xfc, 0xdf, 0x4a, 0x7f,
-	0x59, 0x89, 0x54, 0x3a, 0x8e, 0x3f, 0xc0, 0xed, 0xe2, 0x80, 0x4e, 0x14, 0x53, 0x91, 0xea, 0xee,
-	0x93, 0x47, 0x9b, 0x55, 0x0d, 0x8c, 0x56, 0x71, 0x49, 0x1b, 0xb6, 0x83, 0x64, 0xcb, 0xd4, 0x3a,
-	0xb5, 0x6e, 0x83, 0xa6, 0xef, 0xe4, 0x31, 0xdc, 0x4e, 0xbc, 0x19, 0x60, 0xe8, 0x4a, 0x1e, 0x98,
-	0x5e, 0xae, 0x9b, 0xce, 0xa8, 0x32, 0x39, 0xdf, 0x41, 0xeb, 0x58, 0xf8, 0x8a, 0x71, 0x1f, 0xe5,
-	0xc8, 0x9f, 0x09, 0xf2, 0x19, 0xdc, 0x34, 0x1d, 0x14, 0xda, 0x96, 0xa9, 0x4b, 0x61, 0xfd, 0x9d,
-	0x69, 0x8b, 0x86, 0xd1, 0x18, 0xe4, 0xec, 0x40, 0x33, 0xdd, 0x89, 0x4e, 0x03, 0xea, 0x7d, 0xf7,
-	0xca, 0xf9, 0x11, 0x0e, 0x47, 0x3e, 0x57, 0x9c, 0x79, 0xfc, 0xd7, 0xe8, 0x27, 0x20, 0x7c, 0x85,
-	0xbe, 0x22, 0xc7, 0xb0, 0x67, 0x68, 0xd9, 0x6c, 0xc4, 0xf9, 0xdd, 0x3c, 0x3c, 0x74, 0x9d, 0xe1,
-	0x08, 0x38, 0x28, 0xed, 0x99, 0xf7, 0x39, 0x08, 0xce, 0x9f, 0x16, 0xec, 0xaf, 0xef, 0xa2, 0xf7,
-	0x3a, 0x79, 0xcf, 0xa1, 0x95, 0xee, 0x39, 0xa3, 0x5f, 0x37, 0xed, 0x72, 0xaf, 0x72, 0x39, 0x6a,
-	0x00, 0x2d, 0xe2, 0x9d, 0x7f, 0x1a, 0xd0, 0x4c, 0x4b, 0x75, 0x8d, 0xab, 0x1f, 0x43, 0xcb, 0xbc,
-	0x1c, 0x33, 0x85, 0x97, 0x42, 0xae, 0x4c, 0x4f, 0x35, 0x69, 0xf1, 0x90, 0x4c, 0xc0, 0x0e, 0xb3,
-	0x0b, 0xc0, 0x00, 0x67, 0x5c, 0x17, 0x58, 0xff, 0x27, 0xf4, 0xea, 0xd6, 0xc1, 0x7d, 0x98, 0xf7,
-	0xee, 0x1c, 0xe7, 0x81, 0xc7, 0x14, 0xea, 0x5d, 0xb0, 0x91, 0x48, 0x46, 0x70, 0x10, 0xc7, 0x9d,
-	0x9d, 0xc7, 0xdb, 0xe0, 0xa3, 0x8a, 0x54, 0x0d, 0x70, 0x76, 0xe2, 0x2b, 0xb9, 0xa2, 0x65, 0x16,
-	0xf9, 0x02, 0x0e, 0x15, 0x93, 0x97, 0xa8, 0xa2, 0x3b, 0xc9, 0x8c, 0xa3, 0x3c, 0xe5, 0xe8, 0x4d,
-	0xed, 0x46, 0xa7, 0xde, 0x6d, 0xd2, 0x6a, 0x23, 0x39, 0x85, 0x87, 0xb3, 0x85, 0xe7, 0x51, 0x4c,
-	0xd3, 0x37, 0xd2, 0xcb, 0x7e, 0xc9, 0xbc, 0x89, 0x59, 0x39, 0xd1, 0x6e, 0x6f, 0xd0, 0x6b, 0x50,
-	0xe4, 0x05, 0xec, 0x16, 0x6f, 0x42, 0xf6, 0x07, 0x26, 0x0a, 0x27, 0x1f, 0xc5, 0x89, 0x41, 0xac,
-	0xdf, 0x99, 0xe8, 0x1a, 0x93, 0x3c, 0xd7, 0xad, 0x63, 0xd6, 0x91, 0xf0, 0xb8, 0xbb, 0xb2, 0xb7,
-	0xab, 0xf2, 0x91, 0xd9, 0x75, 0x86, 0x0b, 0x04, 0xf2, 0x14, 0xee, 0x24, 0x8e, 0x86, 0xb9, 0x4b,
-	0x9b, 0xdd, 0xec, 0x58, 0xdd, 0xed, 0x67, 0x37, 0x94, 0x5c, 0x20, 0xad, 0x44, 0x90, 0x73, 0xf8,
-	0x84, 0xfb, 0xae, 0xc4, 0x39, 0xfa, 0x8a, 0xbd, 0x2d, 0x2b, 0x60, 0xb2, 0xf2, 0x6e, 0x60, 0xad,
-	0x1a, 0xa0, 0x9c, 0x09, 0x39, 0x67, 0xbe, 0x8b, 0x6f, 0x51, 0xdd, 0x89, 0x54, 0xdf, 0x09, 0xec,
-	0xfc, 0x6e, 0x41, 0xab, 0xb0, 0x28, 0xc8, 0xa8, 0xf0, 0x53, 0x8e, 0xda, 0xe8, 0xd3, 0x8d, 0x7b,
-	0xa5, 0x97, 0x3d, 0x46, 0x4d, 0x95, 0x23, 0xb7, 0xbf, 0x85, 0xbd, 0x35, 0x33, 0xd9, 0x87, 0xfa,
-	0x15, 0xae, 0x6c, 0xab, 0x63, 0x75, 0x9b, 0x54, 0x3f, 0x92, 0x3b, 0xd0, 0x58, 0xc6, 0xc3, 0xad,
-	0xcf, 0xa2, 0x97, 0x67, 0xb5, 0xa7, 0xd6, 0xd1, 0xe7, 0xf0, 0xc8, 0x15, 0xf3, 0xde, 0x72, 0xae,
-	0x16, 0xf2, 0x8d, 0xe8, 0xe9, 0x49, 0xd0, 0x11, 0xf5, 0xc2, 0xe9, 0x55, 0xec, 0xcf, 0xd1, 0xfe,
-	0xfa, 0xd5, 0xfc, 0xdf, 0x00, 0x00, 0x00, 0xff, 0xff, 0x6a, 0x14, 0x9f, 0x63, 0xad, 0x0b, 0x00,
-	0x00,
+var fileDescriptor_0f4aaac5b7541132 = []byte{
+	// 1147 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xb4, 0x57, 0xdd, 0x6e, 0x1a, 0x47,
+	0x14, 0x66, 0xc1, 0x24, 0xe6, 0x38, 0xf8, 0x67, 0xfc, 0xd3, 0x0d, 0x4d, 0x62, 0xb4, 0x6a, 0x25,
+	0x7a, 0x51, 0x64, 0xf5, 0x27, 0x8a, 0xd2, 0x9f, 0x08, 0x83, 0x2d, 0x48, 0xe4, 0xd8, 0x1d, 0x88,
+	0xaf, 0x2a, 0x59, 0x9b, 0xe5, 0xe0, 0xae, 0xbc, 0xec, 0x6c, 0x67, 0x07, 0x14, 0xfa, 0x0a, 0xed,
+	0x0b, 0xf4, 0x11, 0x7a, 0xd9, 0x37, 0xea, 0x43, 0xf4, 0xb2, 0x17, 0xd5, 0xcc, 0xfe, 0xb3, 0x4b,
+	0x9c, 0x56, 0xf2, 0x1d, 0xcc, 0xf9, 0xbe, 0x8f, 0x33, 0x73, 0xce, 0xf9, 0x66, 0x80, 0x83, 0x33,
+	0x1c, 0xdb, 0xa6, 0xb0, 0x99, 0x7b, 0x86, 0xbe, 0x6f, 0x5e, 0x63, 0xdb, 0xe3, 0x4c, 0x30, 0x02,
+	0x16, 0x9b, 0x4e, 0x99, 0x7b, 0x35, 0x16, 0xac, 0xb1, 0xdf, 0xb1, 0x24, 0xe0, 0xe4, 0x1d, 0x5a,
+	0x33, 0xf9, 0x21, 0x80, 0x34, 0xb6, 0xba, 0x0a, 0xd2, 0x1b, 0x9d, 0x47, 0x0b, 0x3d, 0xdb, 0xb7,
+	0xd8, 0x1c, 0xf9, 0x22, 0x5c, 0xd8, 0x19, 0xce, 0x3c, 0xcf, 0x59, 0x74, 0x7f, 0x32, 0xed, 0x88,
+	0x74, 0x30, 0x18, 0xa3, 0x2b, 0x6c, 0xb1, 0x38, 0x43, 0x61, 0x8e, 0x4d, 0x61, 0x06, 0xeb, 0xc6,
+	0x6f, 0x6b, 0xa9, 0x54, 0xba, 0x8e, 0x8d, 0xae, 0x08, 0x13, 0x22, 0x17, 0x40, 0xe6, 0xa6, 0x63,
+	0x8f, 0x55, 0x88, 0xa2, 0xef, 0x31, 0xd7, 0x47, 0xbd, 0xdc, 0xd4, 0x5a, 0x1b, 0x5f, 0x3c, 0x69,
+	0x27, 0x79, 0xb6, 0x2f, 0x73, 0xa8, 0x7e, 0x89, 0x16, 0x70, 0xc9, 0x19, 0xec, 0x8c, 0xa3, 0x54,
+	0x63, 0xc1, 0x8a, 0x12, 0x7c, 0x9c, 0x16, 0xec, 0x2d, 0x83, 0xfa, 0x25, 0x9a, 0x67, 0x92, 0xaf,
+	0xa1, 0x76, 0x83, 0xe8, 0x75, 0x1c, 0x7b, 0x8e, 0xfa, 0x9a, 0x92, 0xd9, 0x4f, 0xcb, 0xbc, 0x8a,
+	0x82, 0xfd, 0x12, 0x4d, 0x90, 0xa4, 0x07, 0x9b, 0xa6, 0x3a, 0xd8, 0x0b, 0xce, 0xae, 0x39, 0xfa,
+	0xbe, 0x5e, 0x55, 0xdc, 0x46, 0x9a, 0xdb, 0xc9, 0x20, 0xfa, 0x25, 0xba, 0xc4, 0x21, 0xc7, 0x91,
+	0x4a, 0xbc, 0x91, 0x7b, 0x4a, 0x45, 0xcf, 0xab, 0x50, 0xf4, 0x67, 0x8e, 0x48, 0x34, 0xe2, 0x0d,
+	0x5c, 0xc2, 0x9e, 0x30, 0xf9, 0x35, 0x8a, 0x37, 0xde, 0xd8, 0x14, 0x18, 0x2b, 0xdd, 0x57, 0x4a,
+	0xcd, 0xb4, 0xd2, 0xa8, 0x00, 0xd7, 0x2f, 0xd1, 0x42, 0x3e, 0x79, 0x04, 0xb5, 0x69, 0x50, 0xc4,
+	0x41, 0x4f, 0xdf, 0x6a, 0x6a, 0xad, 0x2a, 0x4d, 0x16, 0x8e, 0x1b, 0xa0, 0x4f, 0xa3, 0x8a, 0x5f,
+	0x59, 0xaa, 0xe4, 0x57, 0x61, 0xd4, 0xf8, 0xbb, 0x92, 0x6a, 0x87, 0x21, 0xf2, 0x39, 0xf2, 0xa8,
+	0x1d, 0xce, 0x60, 0x27, 0x5d, 0xd2, 0x9f, 0x67, 0xe8, 0x8b, 0xb0, 0x1b, 0x1e, 0xaf, 0xea, 0x06,
+	0x05, 0x92, 0xc5, 0xcb, 0x31, 0xc9, 0x4b, 0xd8, 0x4e, 0x55, 0x34, 0x50, 0x0b, 0x5a, 0xe1, 0xd1,
+	0x8a, 0x56, 0x88, 0xc4, 0x72, 0x3c, 0xd2, 0x81, 0x7a, 0x74, 0xb2, 0x81, 0x50, 0xd0, 0x0c, 0x0f,
+	0x8b, 0x4a, 0x11, 0xa9, 0x64, 0x19, 0xe4, 0x08, 0x88, 0xed, 0x0a, 0xe4, 0x7c, 0xe6, 0x89, 0x73,
+	0x0f, 0xb9, 0xca, 0x55, 0x35, 0x46, 0x55, 0x36, 0x73, 0x3e, 0x46, 0xbe, 0x01, 0xf0, 0x38, 0xf3,
+	0x90, 0x0b, 0x1b, 0xfd, 0xb0, 0xf8, 0x99, 0x5f, 0x1c, 0xa2, 0xb8, 0x88, 0x01, 0xfd, 0x12, 0x4d,
+	0xc1, 0xc9, 0x10, 0x76, 0xb3, 0x95, 0x0b, 0xf2, 0x0e, 0x0a, 0x7f, 0xb8, 0xba, 0xf0, 0x51, 0xf6,
+	0x45, 0xec, 0xff, 0x52, 0x76, 0x5f, 0x95, 0x36, 0x2e, 0xfb, 0xaf, 0x65, 0xa8, 0x67, 0x0e, 0x48,
+	0x6a, 0x79, 0x9c, 0xbd, 0xc5, 0xd1, 0xc2, 0x43, 0x5d, 0x6b, 0x96, 0x5b, 0x35, 0x9a, 0x2c, 0x90,
+	0x6f, 0xe1, 0x81, 0x69, 0x59, 0x6c, 0xe6, 0x8a, 0x4b, 0xd3, 0x99, 0x49, 0x53, 0xa8, 0xe4, 0x5b,
+	0x3f, 0x89, 0xd3, 0x0c, 0x9a, 0xbc, 0x06, 0x62, 0x66, 0x9d, 0xad, 0x37, 0x3a, 0xd7, 0x2b, 0xcd,
+	0xf2, 0xb2, 0xb1, 0x74, 0x72, 0x28, 0x5a, 0xc0, 0x24, 0xaf, 0x61, 0xdf, 0x47, 0x8b, 0xb9, 0x63,
+	0x93, 0x2f, 0xd2, 0x3f, 0xab, 0xaf, 0xdd, 0x92, 0x56, 0x31, 0xcd, 0x38, 0x85, 0x07, 0xe9, 0xc1,
+	0x25, 0x4f, 0x61, 0x9d, 0x47, 0xa3, 0xa9, 0xa9, 0x2c, 0x1b, 0x85, 0x43, 0xae, 0x10, 0x34, 0xc6,
+	0x1a, 0x7d, 0xd8, 0xcc, 0xda, 0xc8, 0xff, 0x56, 0xfa, 0x53, 0x8b, 0xa4, 0xe2, 0x19, 0xff, 0x01,
+	0x76, 0xb3, 0x6e, 0x32, 0x14, 0xa6, 0x08, 0x54, 0x37, 0xb3, 0x1d, 0xd4, 0xc9, 0xc3, 0x68, 0x11,
+	0x97, 0x34, 0x60, 0xdd, 0x8b, 0x2c, 0xb1, 0xdc, 0x2c, 0xb7, 0xaa, 0x34, 0xfe, 0x4e, 0x8e, 0x60,
+	0x37, 0xca, 0xa6, 0x87, 0xbe, 0xc5, 0x6d, 0x4f, 0x0d, 0x48, 0x45, 0x75, 0x46, 0x51, 0xc8, 0xe8,
+	0xc3, 0x5e, 0x91, 0x69, 0x91, 0x23, 0x58, 0x47, 0xce, 0x19, 0x97, 0x35, 0xd7, 0x54, 0x81, 0xf6,
+	0xd2, 0xd9, 0x9e, 0x84, 0x31, 0x1a, 0xa3, 0x8c, 0xef, 0xa1, 0xde, 0x65, 0xae, 0x30, 0x6d, 0x17,
+	0xf9, 0xc0, 0x9d, 0x30, 0xf2, 0x39, 0xdc, 0x53, 0xbd, 0xe8, 0x87, 0x02, 0x19, 0xd7, 0xbf, 0x90,
+	0x11, 0x09, 0xa3, 0x21, 0xc8, 0xd8, 0x80, 0x5a, 0x7c, 0x15, 0x18, 0x55, 0xa8, 0x74, 0xac, 0x1b,
+	0xe3, 0x47, 0xd8, 0x1f, 0xb8, 0xb6, 0xb0, 0x4d, 0xc7, 0xfe, 0x25, 0xb8, 0xfb, 0x98, 0x2b, 0xd0,
+	0x15, 0xa4, 0x0b, 0x5b, 0x8a, 0x96, 0x8c, 0x6e, 0x58, 0xa9, 0xd5, 0xb3, 0x4d, 0x97, 0x19, 0x06,
+	0x83, 0x9d, 0x9c, 0x0d, 0xde, 0xe5, 0x48, 0x19, 0xff, 0x68, 0xb0, 0xbd, 0x6c, 0x95, 0x77, 0x3a,
+	0xc3, 0x2f, 0xa0, 0x1e, 0xdb, 0xb0, 0xd2, 0xaf, 0xa8, 0xc6, 0x7b, 0x58, 0xe8, 0xdd, 0x12, 0x40,
+	0xb3, 0x78, 0xf2, 0x2a, 0xe5, 0xff, 0xea, 0xec, 0xdf, 0x45, 0xb6, 0x7d, 0x58, 0xa8, 0x11, 0x62,
+	0x64, 0x67, 0xe4, 0x88, 0xc6, 0x1f, 0x1a, 0xec, 0x8e, 0x8a, 0x1d, 0xf1, 0xce, 0x4e, 0xe0, 0x29,
+	0xc0, 0x4c, 0xfd, 0x58, 0x6a, 0xfb, 0x07, 0x69, 0xee, 0x9b, 0x38, 0x4a, 0x53, 0x48, 0xe3, 0xaf,
+	0x2a, 0xd4, 0xe2, 0x1e, 0xbd, 0x25, 0xc3, 0x4f, 0xa0, 0xae, 0xbe, 0x74, 0x4d, 0x81, 0xd7, 0x8c,
+	0x2f, 0xd4, 0x58, 0xd6, 0x68, 0x76, 0x91, 0x0c, 0x41, 0xf7, 0x93, 0x07, 0x5f, 0x0f, 0x27, 0xb6,
+	0xec, 0x6c, 0x79, 0x7f, 0xcb, 0x2b, 0x55, 0xee, 0xe9, 0xa3, 0xcc, 0x8d, 0x82, 0x53, 0xcf, 0x31,
+	0x05, 0xca, 0xa3, 0x5c, 0x49, 0x24, 0x03, 0xd8, 0x09, 0xb7, 0x9b, 0xac, 0x87, 0x86, 0xfa, 0x71,
+	0xc1, 0x09, 0xf5, 0x70, 0x72, 0xe2, 0x0a, 0xbe, 0xa0, 0x79, 0x16, 0xf9, 0x0a, 0xf6, 0x83, 0xeb,
+	0x2a, 0x78, 0x83, 0x4e, 0x6c, 0xe4, 0xa7, 0x36, 0x3a, 0x63, 0xbd, 0xda, 0xac, 0xb4, 0x6a, 0xb4,
+	0x38, 0x48, 0x4e, 0xe1, 0xc9, 0x64, 0xe6, 0x38, 0x14, 0xe3, 0x6a, 0x0f, 0xe4, 0x25, 0x3c, 0x37,
+	0x9d, 0xa1, 0x72, 0xed, 0xe0, 0xce, 0xad, 0xd2, 0x5b, 0x50, 0xe4, 0x25, 0x6c, 0x66, 0x5f, 0xbe,
+	0xfa, 0x7d, 0xb5, 0x0b, 0x23, 0xe3, 0x3a, 0x0a, 0xb1, 0xfc, 0x46, 0xa6, 0x4b, 0x4c, 0xf2, 0x42,
+	0x76, 0x8c, 0x72, 0x74, 0xe6, 0xd8, 0xd6, 0x42, 0x5f, 0x2f, 0x3a, 0x8f, 0x24, 0x2e, 0x4f, 0x38,
+	0x43, 0x20, 0xcf, 0x60, 0x2f, 0x4a, 0xd4, 0x4f, 0x3d, 0xd2, 0xf5, 0x5a, 0x53, 0x6b, 0xad, 0x3f,
+	0x5f, 0x13, 0x7c, 0x86, 0xb4, 0x10, 0x41, 0x46, 0xf0, 0xa9, 0xed, 0x5a, 0x1c, 0xa7, 0xe8, 0x0a,
+	0xf3, 0x7d, 0xa7, 0x02, 0xea, 0x54, 0x3e, 0x0c, 0x2c, 0x55, 0x3d, 0xe4, 0x13, 0xc6, 0xa7, 0xa6,
+	0x6b, 0xe1, 0x7b, 0x54, 0x37, 0x02, 0xd5, 0x0f, 0x02, 0x1b, 0xbf, 0x6b, 0x50, 0xcf, 0x38, 0x24,
+	0x19, 0x64, 0x1e, 0x4b, 0x41, 0x1b, 0x7d, 0xb6, 0xd2, 0x50, 0xdb, 0xc9, 0xc7, 0xa0, 0xa9, 0x52,
+	0xe4, 0xc6, 0x77, 0xb0, 0xb5, 0x14, 0x26, 0xdb, 0x50, 0xb9, 0xc1, 0x85, 0xae, 0x35, 0xb5, 0x56,
+	0x8d, 0xca, 0x8f, 0x64, 0x0f, 0xaa, 0xf3, 0x70, 0xa6, 0xe5, 0x5a, 0xf0, 0xe5, 0x79, 0xf9, 0x99,
+	0x76, 0xfc, 0x25, 0x1c, 0x5a, 0x6c, 0xda, 0x9e, 0x4f, 0xc5, 0x8c, 0xbf, 0x65, 0x6d, 0x39, 0x09,
+	0x72, 0x47, 0x6d, 0x7f, 0x7c, 0x13, 0xe6, 0x73, 0xbc, 0xbd, 0xfc, 0xdf, 0xec, 0xdf, 0x00, 0x00,
+	0x00, 0xff, 0xff, 0xf3, 0x83, 0xfd, 0xab, 0xae, 0x0d, 0x00, 0x00,
 }
